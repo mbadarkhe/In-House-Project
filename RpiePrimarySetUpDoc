@@ -1,0 +1,71 @@
+Downloading and Repo syncing and building android GB Rasberry Pie FS:
+
+1.Downloads needed libraries:
+
+$ sudo apt-get install git-core gnupg flex bison gperf build-essential \
+  zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
+  libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
+  libgl1-mesa-dev g++-multilib mingw32 openjdk-6-jdk tofrodos \
+  python-markdown libxml2-utils xsltproc zlib1g-dev:i386
+$ sudo ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
+
+
+2.$ mkdir ~/bin
+$ PATH=~/bin:$PATH
+curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+chmod a+x ~/bin/repo
+
+
+3. $ mkdir ~/gingerbread_pi
+$ cd ~/gingerbread_pi​
+$ repo init -u git://github.com/CyanogenMod/android.git -b gingerbread
+
+Note : Here You might face the error for manifest file if valid .gitconfig file is not there:
+
+Run following commands :
+git config --global user.email "rohit.patle86@gmail.com"
+git config --global user.name "Rohit Patle"
+
+And the problem will be resolved.
+
+4.repo sync -j16
+
+When that's finished, download the device tree for the Raspberry Pi:
+
+$ mkdir -p ~/gingerbread_pi/device/rpi
+$ cd ~/gingerbread_pi/device/rpi/
+$ git clone https://github.com/Mathijsz/device_rpi.git 
+$ mv device_rpi rpi
+
+
+5.The source code needs some other changes to work with the R-Pi. Run this to do that automatically:
+
+$ cd ~/gingerbread_pi/device/rpi/rpi
+$ ./initial_setup.sh
+$ cd ~/gingerbread_pi
+
+
+
+6.And finally run...
+
+$ source build/envsetup.sh
+$ lunch 6
+$ make -j4
+
+
+7.
+
+..to build. Select the appropriate target. Your build will be in out/target/product/rpi/root. The 'system' folder needs to be copied into 'root'.
+
+The files that are in the root folder should be copied to the root of your filesystem partition. 
+
+
+==============================================================================================================================================
+===========================================================================================================================================
+
+Downloading and compiling android GB Rasberry Pie Kernel:
+
+1. Download the Rasberry Pie source from :
+https://github.com/Mathijsz/razdroid-kernel
+
+
